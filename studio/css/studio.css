@@ -231,6 +231,7 @@ svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
   .left,.right{border:0;border-top:1px solid var(--line)}
   .layers{max-height:none}.history{max-height:220px}
   .stage{min-height:62vh;padding:16px}
+  .top{order:-3}.center{order:-2}.right{order:-1}
   .thumbs{flex-wrap:wrap}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
