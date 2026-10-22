@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Two Apples Studio</title>
+<meta name="description" content="Live campaign studio for Al Fakher Two Apples: every layer, every size, edited by voice or hand.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Inter:opsz,wght@14..32,100..900&family=Instrument+Serif:ital@0;1&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=DM+Serif+Display&family=Space+Grotesk:wght@300..700&family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="css/studio.css">
+</head>
+<body>
+<div class="app" id="app">
+  <header class="top">
+    <div class="brand">
+      <span class="mark" aria-hidden="true"></span>
+      <div class="brand-t"><b>Two Apples</b><span>Campaign Studio</span></div>
+    </div>
+    <nav class="fmts" id="fmtTabs" aria-label="Formats"></nav>
+    <div class="top-r">
+      <div class="seg" role="group" aria-label="View">
+        <button data-view="single" class="on" title="One size">Single</button>
+        <button data-view="grid" title="All sizes at once">All sizes</button>
+      </div>
+      <div class="seg" role="group" aria-label="Language">
+        <button data-lang="en" class="on">EN</button>
+        <button data-lang="ar">ع</button>
+      </div>
+      <button class="ib" id="btnUndo" title="Undo (Ctrl+Z)" aria-label="Undo"><svg viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
+      <button class="ib" id="btnRedo" title="Redo (Ctrl+Shift+Z)" aria-label="Redo"><svg viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5a5.5 5.5 0 0 0 0 11H13"/></svg></button>
+      <button class="ib" id="btnCompare" title="Compare with pinned version" aria-label="Compare"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/></svg></button>
+      <button class="ib" id="btnSafe" title="Safe zones" aria-label="Safe zones"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 7h16M4 17h16" stroke-dasharray="2 2"/></svg></button>
+      <button class="pill ghost" id="btnGuard"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>Brand check</button>
+      <div class="menu-wrap">
+        <button class="pill solid" id="btnExport"><svg viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>Export</button>
+        <div class="menu" id="exportMenu" hidden>
+          <button data-exp="png">This size · PNG</button>
+          <button data-exp="png2">This size · PNG @2x</button>
+          <button data-exp="zip">All sizes · ZIP</button>
+          <button data-exp="psd">Layered PSD · this size</button>
+          <button data-exp="psdall">Layered PSD · all sizes (ZIP)</button>
+        </div>
+      </div>
+      <button class="ib" id="btnSettings" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
+    </div>
+  </header>
+
+  <aside class="left">
+    <div class="ph"><span>Layers</span><span class="hint" id="layerCount"></span></div>
+    <ol class="layers" id="layers"></ol>
+    <div class="ph sub"><span>History</span><span><button class="link" id="btnReset" title="Back to the original design">Reset</button> · <button class="link" id="btnPin" title="Pin this version for A/B">Pin as A</button></span></div>
+    <ol class="history" id="history"></ol>
+  </aside>
+
+  <main class="center">
+    <div class="stage" id="stage">
+      <div class="art" id="art">
+        <canvas id="cv"></canvas>
+        <div class="ov" id="ov"></div>
+      </div>
+      <div class="grid" id="gridView" hidden></div>
+      <div class="compare" id="compareView" hidden>
+        <figure><figcaption>A · pinned</figcaption><canvas id="cvA"></canvas></figure>
+        <figure><figcaption>B · now</figcaption><canvas id="cvB"></canvas></figure>
+      </div>
+    </div>
+    <div class="thumbs" id="thumbs"></div>
+    <div class="dock">
+      <div class="heard" id="heard" hidden></div>
+      <div class="cmd" id="cmd">
+        <button class="mic" id="btnMic" title="Hold to talk (or press M)" aria-label="Talk"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
+        <input id="cmdIn" autocomplete="off" spellcheck="false" placeholder="Tell it what to change… e.g. “make the button red and move it up a bit”">
+        <button class="seg-mini" id="btnMicLang" title="Voice language">EN</button>
+        <button class="send" id="btnSend" aria-label="Apply"><svg viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+      </div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+    </div>
+  </main>
+
+  <aside class="right">
+    <div class="scope">
+      <span>Edits apply to</span>
+      <div class="seg" role="group">
+        <button data-scope="current" class="on">This size</button>
+        <button data-scope="all">All sizes</button>
+      </div>
+    </div>
+    <div class="insp" id="insp"></div>
+  </aside>
+</div>
+
+<div class="modal" id="guardModal" hidden>
+  <div class="sheet">
+    <div class="sh"><b>Brand check</b><button class="ib" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div id="guardBody"></div>
+  </div>
+</div>
+<div class="modal" id="varModal" hidden>
+  <div class="sheet wide">
+    <div class="sh"><b id="varTitle">Variants</b><button class="ib" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <div class="vgrid" id="varBody"></div>
+  </div>
+</div>
+<div class="modal" id="setModal" hidden>
+  <div class="sheet">
+    <div class="sh"><b>Settings</b><button class="ib" data-close aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+    <label class="fld"><span>Assistant key</span><input id="keyIn" type="password" autocomplete="off" placeholder="Paste key"></label>
+    <p class="note">Stored only in this browser. Without a key, quick commands and manual editing still work.</p>
+    <div class="row"><button class="pill solid" id="btnSaveKey">Save</button><button class="pill ghost" id="btnTestKey">Test</button><span class="note" id="keyStatus"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="busy" id="busy" hidden><div class="spin"></div><span id="busyT">Working…</span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ag-psd@31.0.2/dist/bundle.js"></script>
+<script src="js/model.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ops.js"></script>
+<script src="js/assist.js"></script>
+<script src="js/exporter.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>
